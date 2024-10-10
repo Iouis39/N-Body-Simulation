@@ -1,7 +1,9 @@
-## N-Body Simulation in C++ and Metal.
+# N-Body Simulation in C++ and Metal.
 This simulation uses the all-pairs approach, which has O(n<sup>2</sup>) time complexity.
 
 ## Simulation Kernel
+The Kernel is based on the document: *Fast N-Body Simulation with Cuda*<sup>*1*</sup>.
+
 ```Metal
 kernel void ParticleSimulation( device Particle* ParticleInput 	        [[ buffer(0) ]],
 				threadgroup Particle* sharedParticle    [[ threadgroup(0) ]],
@@ -33,6 +35,12 @@ kernel void ParticleSimulation( device Particle* ParticleInput 	        [[ buffe
 	ParticleInput[ baseID + localID ] = Particle;
 }
 ```
+
+### 1. Memory
+The Particle-Input constists of every Particle in the simulation, each Particle-Struct holds a position and a velocity, the third components are
+the mass (position.z) and the radius (velocity.z). In order to reduce shared-memory each threadgroup only computes a tile in parallel, which is
+a square region of the input data.
+
 
 
 
