@@ -3,12 +3,12 @@ This simulation uses the all-pairs approach, which has O(n<sup>2</sup>) time com
 
 ## Simulation Kernel
 ```Metal
-kernel void ParticleSimulation( device Particle* ParticleInput 		        [[ buffer(0) ]],
-							                  threadgroup Particle* sharedParticle [[ threadgroup(0) ]],
-						                		const uint localID 			[[ thread_index_in_threadgroup ]],
-						                		const uint groupID 		 [[ threadgroup_position_in_grid ]],
-	              						    const uint n 					        	   [[ threads_per_grid ]],
-							                  const uint BLOCK_SIZE 			[[ threads_per_threadgroup ]]) {
+kernel void ParticleSimulation( device Particle* ParticleInput 	        [[ buffer(0) ]],
+				threadgroup Particle* sharedParticle    [[ threadgroup(0) ]],
+				const uint localID 			[[ thread_index_in_threadgroup ]],
+				const uint groupID 		 	[[ threadgroup_position_in_grid ]],
+				const uint n 			        [[ threads_per_grid ]],
+                                const uint BLOCK_SIZE 			[[ threads_per_threadgroup ]]) {
 	const uint baseID = groupID * BLOCK_SIZE;
 	
 	float2 acceleration = 0;
